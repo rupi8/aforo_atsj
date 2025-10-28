@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Consulta de Zonas Teatro</title>
+</head>
+<body>
+<h2>📊 Resultado de zonas</h2>
+<pre id="resultado">Cargando...</pre>
+
+<script>
+const url = "https://apiteatros.compralaentrada.com/api1/f/zonas?sesion_id=18532&abonado_id=1702332///";
+
+fetch(url, {
+  headers: {
+    "Accept": "application/json",
+    "Hash-Teatro": "2IcJsvmDMf3LM9rJREmH"
+  }
+})
+  .then(response => response.json())
+  .then(data => {
+    const zonas = data.data || data.body || [];
+    let texto = "";
+
+    zonas.forEach(z => {
+      if (z.name !== "ABONADOS") {
+        const aforo = parseInt(z.aforo || 0);
+        const libres = parseInt(z.libres || 0);
+        const ocupadas = aforo - libres;
+        texto += `🟢 ${z.name}: ${ocupadas} ocupadas / ${aforo} total\n`;
+      }
+    });
+
+    document.getElementById("resultado").textContent = texto;
+  })
+  .catch(err => {
+    document.getElementById("resultado").textContent = "❌ Error: " + err;
+  });
+</script>
+</body>
+</html>
