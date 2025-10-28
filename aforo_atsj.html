@@ -21,16 +21,19 @@ fetch(url, {
   .then(data => {
     const zonas = data.data || data.body || [];
     let texto = "";
+    let totalOcupadas = 0; // <-- Variable para acumular ocupadas
 
     zonas.forEach(z => {
       if (z.name !== "ABONADOS" && z.name !== "PALCO") {
         const aforo = parseInt(z.aforo || 0);
         const libres = parseInt(z.libres || 0);
         const ocupadas = aforo - libres;
+        totalOcupadas += ocupadas; // <-- Sumar al total
         texto += `🟢 ${z.name}: ${ocupadas} ocupadas / ${aforo} total\n`;
       }
     });
 
+    texto += `\n📌 Total ocupadas: ${totalOcupadas}`; // <-- Mostrar total
     document.getElementById("resultado").textContent = texto;
   })
   .catch(err => {
@@ -39,6 +42,3 @@ fetch(url, {
 </script>
 </body>
 </html>
-
-
-
