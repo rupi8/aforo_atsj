@@ -23,7 +23,7 @@ fetch(url, {
     let texto = "";
 
     zonas.forEach(z => {
-      if (z.name !== "ABONADOS") {
+      if (z.name !== "ABONADOS" && z.name !== "PALCO") {
         const aforo = parseInt(z.aforo || 0);
         const libres = parseInt(z.libres || 0);
         const ocupadas = aforo - libres;
@@ -39,4 +39,5 @@ fetch(url, {
 </script>
 </body>
 </html>
+
 
